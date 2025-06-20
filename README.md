@@ -89,69 +89,37 @@ your_project_root/
 ├── .gitignore                  # Git Configuration: Specifies files and directories to be ignored by Git.
 └── README.md                   # Project Documentation: Comprehensive overview, setup, usage, and results.
 
-
 ## Setup and Installation
 
-### 1. Clone the Repository
+1.  **Clone the Repository:**
+    Navigate to your desired directory and clone the project:
+    ```bash
+    git clone [https://github.com/CatOn60Hz/Real-time-Network-Traffic-Classifier-IDS.git](https://github.com/CatOn60Hz/Real-time-Network-Traffic-Classifier-IDS.git)
+    cd Real-time-Network-Traffic-Classifier-IDS
+    ```
 
-```bash
-git clone https://github.com/CatOn60Hz/Real-time-Network-Traffic-Classifier-IDS.git
-cd Real-time-Network-Traffic-Classifier-IDS
-2. Create and Activate Virtual Environment
-bash
-Copy
-Edit
-python -m venv venv
-# Windows:
-.\venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-3. Install Dependencies
-bash
-Copy
-Edit
-pip install pandas numpy scikit-learn tensorflow flask requests joblib
-4. Prepare Dataset
-Place the CSV files in the data/ folder as described in the Dataset section.
+2.  **Create and Activate Virtual Environment:**
+    It's highly recommended to use a virtual environment to manage dependencies.
+    ```bash
+    python -m venv venv
+    ```
+    Activate the environment:
+    * **Windows:**
+        ```bash
+        .\venv\Scripts\activate
+        ```
+    * **macOS/Linux:**
+        ```bash
+        source venv/bin/activate
+        ```
 
-Usage
-1. Train and Save the Model
-bash
-Copy
-Edit
-python train_and_save_model.py
-This will:
+3.  **Install Dependencies:**
+    Once your virtual environment is active, install all necessary Python libraries:
+    ```bash
+    pip install pandas numpy scikit-learn tensorflow flask requests joblib
+    ```
 
-Preprocess the data
-
-Train the 1D CNN
-
-Save:
-
-cnn_ids_model.h5
-
-ids_preprocessor.pkl
-
-label_encoder.pkl
-
-original_feature_names.pkl
-
-to the saved_models/ directory.
-
-2. Run the Flask API
-bash
-Copy
-Edit
-python app.py
-Starts a Flask server at: http://127.0.0.1:5000/
-
-Keep this terminal running to accept predictions.
-
-3. Simulate Network Traffic
-bash
-Copy
-Edit
-# In a new terminal (activate the virtualenv again if needed)
-python simulate_traffic.py
-Random samples from the test dataset will be sent to the /predict API.
+4.  **Prepare Dataset:**
+    * Download `UNSW_NB15_training-set.csv` and `UNSW_NB15_testing-set.csv`.
+    * Place both CSV files inside the `data/` folder in your project's root directory (refer to the [Dataset](#dataset) section for more details).
 
