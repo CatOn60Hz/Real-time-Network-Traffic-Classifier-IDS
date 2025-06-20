@@ -60,16 +60,18 @@ This project utilizes the **UNSW-NB15 Dataset**, a publicly available dataset sp
 2. Create a folder named `data` in your project root directory.
 3. Place both CSV files inside the `data/` folder.
 
-your_project_root/
+</code> </pre>your_project_root/
 ├── data/
 │ ├── UNSW_NB15_training-set.csv
 │ └── UNSW_NB15_testing-set.csv
+</code> </pre>
 
 ---
 
 ## Project Structure
 
-<pre> <code>```your_project_root/
+<pre> <code>
+your_project_root/
 ├── app.py # Flask API for model inference and simple UI
 ├── train_and_save_model.py # Script to preprocess data, train model, and save artifacts
 ├── simulate_traffic.py # Script to simulate network traffic and send to API
@@ -84,7 +86,7 @@ your_project_root/
 ├── templates/
 │ └── index.html # Optional basic web UI
 ├── .gitignore
-└── README.md ```</code> </pre>
+└── README.md </code> </pre>
 ## Setup and Installation
 
 1.  **Clone the Repository:**
