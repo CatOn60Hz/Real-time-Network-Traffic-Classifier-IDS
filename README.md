@@ -65,7 +65,7 @@ your_project_root/
 ├── data/
 │ ├── UNSW_NB15_training-set.csv
 │ └── UNSW_NB15_testing-set.csv
-<pre> <code>
+</code></pre>
 
 ---
 
