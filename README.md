@@ -12,7 +12,6 @@
   - [1. Train and Save the Model](#1-train-and-save-the-model)
   - [2. Run the Flask API](#2-run-the-flask-api)
   - [3. Simulate Network Traffic](#3-simulate-network-traffic)
-  - [4. (Optional) Access the Basic Web UI](#4-optional-access-the-basic-web-ui)
 - [Results and Performance](#results-and-performance)
 - [License](#license)
 - [Contact](#contact)
@@ -73,9 +72,9 @@ your_project_root/
 
 <pre> <code>
 your_project_root/
-├── app.py # Flask API for model inference and simple UI
-├── train_and_save_model.py # Script to preprocess data, train model, and save artifacts
-├── simulate_traffic.py # Script to simulate network traffic and send to API
+├── app.py 
+├── train_and_save_model.py 
+├── simulate_traffic.py 
 ├── data/
 │ ├── UNSW_NB15_training-set.csv
 │ └── UNSW_NB15_testing-set.csv
@@ -84,8 +83,6 @@ your_project_root/
 │ ├── ids_preprocessor.pkl
 │ ├── label_encoder.pkl
 │ └── original_feature_names.pkl
-├── templates/
-│ └── index.html # Optional basic web UI
 ├── .gitignore
 └── README.md </code> </pre>
 ## Setup and Installation
@@ -180,12 +177,5 @@ python simulate_traffic.py
 ## License
 
 This project is licensed under the MIT License.
-
-You are free to:
-- Use
-- Modify
-- Distribute
-
-the code and assets included in this repository under the terms of the MIT License.
 
 
