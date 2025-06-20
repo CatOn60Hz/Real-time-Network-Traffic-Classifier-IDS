@@ -69,22 +69,25 @@ your_project_root/
 
 ## Project Structure
 
-your_project_root/
-├── app.py # Flask API for model inference and simple UI
-├── train_and_save_model.py # Script to preprocess data, train model, and save artifacts
-├── simulate_traffic.py # Script to simulate network traffic and send to API
-├── data/
-│ ├── UNSW_NB15_training-set.csv
-│ └── UNSW_NB15_testing-set.csv
-├── saved_models/
-│ ├── cnn_ids_model.h5
-│ ├── ids_preprocessor.pkl
-│ ├── label_encoder.pkl
-│ └── original_feature_names.pkl
-├── templates/
-│ └── index.html # Optional basic web UI
-├── .gitignore
-└── README.md
+── app.py                      # Flask API: Serves as the web interface for model inference.
+├── train_and_save_model.py     # Training Script: Handles data preprocessing, model training, evaluation, and saving.
+├── simulate_traffic.py         # Simulation Script: Generates test data and calls the API for predictions.
+│
+├── data/                       # Raw Data Directory: Stores the UNSW-NB15 dataset files.
+│   ├── UNSW_NB15_training-set.csv
+│   └── UNSW_NB15_testing-set.csv
+│
+├── saved_models/               # Model Artifacts: Contains all trained models and preprocessing tools.
+│   ├── cnn_ids_model.h5        # The trained 1D CNN model.
+│   ├── ids_preprocessor.pkl    # Fitted scikit-learn ColumnTransformer for data preprocessing.
+│   ├── label_encoder.pkl       # Fitted scikit-learn LabelEncoder for attack categories.
+│   └── original_feature_names.pkl # List of feature names in the correct order for inference.
+│
+├── templates/                  # UI Templates: Stores HTML files for the Flask web interface.
+│   └── index.html              # Optional: Basic HTML page for interacting with the API.
+│
+├── .gitignore                  # Git Configuration: Specifies files and directories to be ignored by Git.
+└── README.md                   # Project Documentation: Comprehensive overview, setup, usage, and results.
 
 
 ## Setup and Installation
