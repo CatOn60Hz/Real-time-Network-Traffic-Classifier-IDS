@@ -69,7 +69,22 @@ your_project_root/
 
 ## Project Structure
 
-<pre> <code>```bash your_project_root/ ├── app.py ├── train_and_save_model.py ├── simulate_traffic.py ├── data/ │ ├── UNSW_NB15_training-set.csv │ └── UNSW_NB15_testing-set.csv ├── saved_models/ │ ├── cnn_ids_model.h5 │ ├── ids_preprocessor.pkl │ ├── label_encoder.pkl │ └── original_feature_names.pkl ├── templates/ │ └── index.html ├── .gitignore └── README.md ```</code> </pre>
+<pre> <code>```your_project_root/
+├── app.py # Flask API for model inference and simple UI
+├── train_and_save_model.py # Script to preprocess data, train model, and save artifacts
+├── simulate_traffic.py # Script to simulate network traffic and send to API
+├── data/
+│ ├── UNSW_NB15_training-set.csv
+│ └── UNSW_NB15_testing-set.csv
+├── saved_models/
+│ ├── cnn_ids_model.h5
+│ ├── ids_preprocessor.pkl
+│ ├── label_encoder.pkl
+│ └── original_feature_names.pkl
+├── templates/
+│ └── index.html # Optional basic web UI
+├── .gitignore
+└── README.md ```</code> </pre>
 ## Setup and Installation
 
 1.  **Clone the Repository:**
