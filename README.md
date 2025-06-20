@@ -117,7 +117,11 @@ your_project_root/
     ```bash
     pip install pandas numpy scikit-learn tensorflow flask requests joblib
     ```
-# Meow IDS: 1D CNN Intrusion Detection System
+
+4.  **Prepare Dataset:**
+    * Download `UNSW_NB15_training-set.csv` and `UNSW_NB15_testing-set.csv`.
+    * Place both CSV files inside the `data/` folder in your project's root directory (refer to the [Dataset](#dataset) section for more details).
+
 
 ## Usage
 
@@ -183,7 +187,4 @@ You are free to:
 
 the code and assets included in this repository under the terms of the MIT License.
 
-4.  **Prepare Dataset:**
-    * Download `UNSW_NB15_training-set.csv` and `UNSW_NB15_testing-set.csv`.
-    * Place both CSV files inside the `data/` folder in your project's root directory (refer to the [Dataset](#dataset) section for more details).
 
