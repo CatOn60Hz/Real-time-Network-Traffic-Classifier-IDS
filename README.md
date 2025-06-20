@@ -60,11 +60,12 @@ This project utilizes the **UNSW-NB15 Dataset**, a publicly available dataset sp
 2. Create a folder named `data` in your project root directory.
 3. Place both CSV files inside the `data/` folder.
 
-</code> </pre>your_project_root/
+<pre> <code>
+your_project_root/
 ├── data/
 │ ├── UNSW_NB15_training-set.csv
 │ └── UNSW_NB15_testing-set.csv
-</code> </pre>
+<pre> <code>
 
 ---
 
