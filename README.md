@@ -117,6 +117,71 @@ your_project_root/
     ```bash
     pip install pandas numpy scikit-learn tensorflow flask requests joblib
     ```
+# Meow IDS: 1D CNN Intrusion Detection System
+
+## Usage
+
+### 1. Train and Save the Model
+
+```sh
+python train_and_save_model.py
+```
+
+This will:
+- Preprocess the data
+- Train the 1D CNN
+- Save the following files to the `saved_models/` directory:
+  - `cnn_ids_model.h5`
+  - `ids_preprocessor.pkl`
+  - `label_encoder.pkl`
+  - `original_feature_names.pkl`
+
+---
+
+### 2. Run the Flask API
+
+```sh
+python app.py
+```
+
+- This starts a Flask server at: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+- Keep this terminal running to accept real-time prediction requests.
+
+---
+
+### 3. Simulate Network Traffic
+
+Open a new terminal window and run:
+
+```sh
+python simulate_traffic.py
+```
+
+- This will randomly select flows from the test dataset.
+- Each selected flow will be sent to the `/predict` endpoint.
+- Predictions will be printed in the terminal.
+
+---
+
+## Results and Performance
+
+- **Overall Accuracy:** > 99.9% on the test set.
+- High performance across all 10 classes (9 attack types + normal).
+- Strong precision, recall, and F1-score metrics.
+- Classification report and confusion matrix are printed during training.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+You are free to:
+- Use
+- Modify
+- Distribute
+
+the code and assets included in this repository under the terms of the MIT License.
 
 4.  **Prepare Dataset:**
     * Download `UNSW_NB15_training-set.csv` and `UNSW_NB15_testing-set.csv`.
