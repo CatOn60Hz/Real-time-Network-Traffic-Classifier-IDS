@@ -65,10 +65,6 @@ your_project_root/
 │ ├── UNSW_NB15_training-set.csv
 │ └── UNSW_NB15_testing-set.csv
 
-yaml
-Copy
-Edit
-
 ---
 
 ## Project Structure
@@ -90,11 +86,6 @@ your_project_root/
 ├── .gitignore
 └── README.md
 
-yaml
-Copy
-Edit
-
----
 
 ## Setup and Installation
 
