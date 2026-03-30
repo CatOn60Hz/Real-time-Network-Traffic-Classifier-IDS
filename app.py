@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 app = Flask(__name__)
 
 # --- Configuration ---
-MODEL_SAVE_DIR = 'saved_models/'
+MODEL_SAVE_DIR = 'models/'
 MODEL_NAME = 'keras_model.h5' # Ensure this matches what you saved (e.g., cnn_ids_model.h5 or cnn_ids_model_tf_format)
 # FIX HERE: Corrected preprocessor filename
 PREPROCESSOR_NAME = 'ids_preprocessor.pkl'

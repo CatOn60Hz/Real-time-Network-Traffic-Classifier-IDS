@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security IDS Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --danger-color: #ef4444;
+            --safe-color: #10b981;
+            --border-color: #334155;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-panel h2 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        select, input {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn:disabled {
+            background-color: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Panel */
+        .results-panel {
+            flex: 2;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .status-card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 200px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .status-card.idle {
+            border-color: var(--border-color);
+        }
+
+        .status-card.safe {
+            border-color: var(--safe-color);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+
+        .status-card.danger {
+            border-color: var(--danger-color);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+        }
+
+        .status-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .status-value {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .status-confidence {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .details-card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            flex: 1;
+        }
+
+        .details-card h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .probabilities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .prob-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .prob-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+
+        .prob-bar-bg {
+            height: 6px;
+            background-color: var(--bg-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .prob-bar-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .advanced-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loader {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .advanced-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>Network IDS Monitor</h1>
+        <div style="color: var(--text-muted); font-size: 0.875rem;">Status: <span style="color: var(--safe-color);">Online</span></div>
+    </header>
+
+    <div class="container">
+        <!-- Control Panel -->
+        <main class="control-panel">
+            <h2>Simulation Config</h2>
+            
+            <div class="form-group">
+                <label for="simulation-profile">Traffic Profile</label>
+                <select id="simulation-profile" onchange="loadProfile()">
+                    <option value="normal">Normal Traffic (Baseline)</option>
+                    <option value="dos">Simulate DoS Attack</option>
+                    <option value="recon">Simulate Reconnaissance</option>
+                    <option value="fuzzer">Simulate Fuzzer</option>
+                    <option value="exploit">Simulate Exploit</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Key Features Overlay</label>
+                <div class="advanced-features">
+                    <div class="form-group">
+                        <label for="feat-dur">Duration (s)</label>
+                        <input type="number" id="feat-dur" step="0.001" value="0.001">
+                    </div>
+                    <div class="form-group">
+                        <label for="feat-rate">Pkt Rate</label>
+                        <input type="number" id="feat-rate" step="1" value="10">
+                    </div>
+                     <div class="form-group">
+                        <label for="feat-sbytes">Src Bytes</label>
+                        <input type="number" id="feat-sbytes" step="1" value="200">
+                    </div>
+                    <div class="form-group">
+                        <label for="feat-dbytes">Dst Bytes</label>
+                        <input type="number" id="feat-dbytes" step="1" value="300">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" id="simulate-btn" onclick="runSimulation()">
+                Launch Simulation
+            </button>
+        </main>
+
+        <!-- Results Panel -->
+        <aside class="results-panel">
+            
+            <div class="status-card idle" id="status-card">
+                <div class="status-label">Current Classification</div>
+                <div class="status-value" id="status-value">Awaiting Data</div>
+                <div class="status-confidence" id="status-confidence">--</div>
+            </div>
+
+            <div class="details-card">
+                <h3>Model Confidences</h3>
+                <div class="probabilities-list" id="probabilities-list">
+                    <div style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run a simulation to view probabilities.
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+    <script>
+        // Preset simulation profiles generating mock data targeting attack heuristic signatures.
+        const profiles = {
+            normal: { dur: 0.12, rate: 50, sbytes: 800, dbytes: 2000, sttl: 31, dttl: 29 },
+            dos: { dur: 0.00001, rate: 950000, sbytes: 100, dbytes: 0, sttl: 254, dttl: 0 },
+            recon: { dur: 1.5, rate: 15, sbytes: 400, dbytes: 400, sttl: 254, dttl: 252 },
+            fuzzer: { dur: 0.5, rate: 1000, sbytes: 8000, dbytes: 0, sttl: 254, dttl: 0 },
+            exploit: { dur: 0.8, rate: 80, sbytes: 35000, dbytes: 12000, sttl: 254, dttl: 252 }
+        };
+
+        function loadProfile() {
+            const profileKey = document.getElementById('simulation-profile').value;
+            const profileData = profiles[profileKey];
+            
+            document.getElementById('feat-dur').value = profileData.dur;
+            document.getElementById('feat-rate').value = profileData.rate;
+            document.getElementById('feat-sbytes').value = profileData.sbytes;
+            document.getElementById('feat-dbytes').value = profileData.dbytes;
+        }
+
+        function createPayload() {
+            // Read UI overrides
+            const uDur = parseFloat(document.getElementById('feat-dur').value);
+            const uRate = parseFloat(document.getElementById('feat-rate').value);
+            const uSbytes = parseFloat(document.getElementById('feat-sbytes').value);
+            const uDbytes = parseFloat(document.getElementById('feat-dbytes').value);
+            
+            const profileKey = document.getElementById('simulation-profile').value;
+            const basettl1 = profiles[profileKey].sttl || 31;
+            const basettl2 = profiles[profileKey].dttl || 29;
+
+            // Generate full 42 features vector proxy for the UNSW-NB15 IDS
+            return {
+                dur: uDur, proto: "tcp", service: "http", state: "FIN",
+                spkts: Math.max(1, Math.floor(uSbytes / 100)), 
+                dpkts: Math.max(0, Math.floor(uDbytes / 100)),
+                sbytes: uSbytes, dbytes: uDbytes, rate: uRate,
+                sttl: basettl1, dttl: basettl2, sload: uRate * 8, dload: (uRate/2) * 8,
+                sloss: 0, dloss: 0, sinpkt: 10, dinpkt: 10,
+                sjit: 0, djit: 0, swin: 255, stcpb: 1000, dtcpb: 1000, dwin: 255, 
+                tcprtt: 0.05, synack: 0.02, ackdat: 0.03, smean: 64, dmean: 64, 
+                trans_depth: 1, response_body_len: 0, ct_srv_src: 2, ct_state_ttl: 1, 
+                ct_dst_ltm: 2, ct_src_dport_ltm: 2, ct_dst_sport_ltm: 1, ct_dst_src_ltm: 2, 
+                is_ftp_login: 0, ct_ftp_cmd: 0, ct_flw_http_mthd: 1, ct_src_ltm: 2, 
+                ct_srv_dst: 2, is_sm_ips_ports: 0
+            };
+        }
+
+        async function runSimulation() {
+            const btn = document.getElementById('simulate-btn');
+            const statusCard = document.getElementById('status-card');
+            const statusValue = document.getElementById('status-value');
+            const statusConf = document.getElementById('status-confidence');
+            const probList = document.getElementById('probabilities-list');
+
+            // UI Loading State
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader"></div>';
+            statusCard.className = 'status-card idle';
+            statusValue.innerText = 'Analyzing...';
+            statusConf.innerText = '--';
+
+            const payload = createPayload();
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                // Update Status UI
+                const isNormal = data.predicted_category.toLowerCase() === 'normal';
+                statusCard.className = `status-card ${isNormal ? 'safe' : 'danger'}`;
+                statusValue.innerText = data.predicted_category;
+                
+                const confPercent = (data.prediction_probability_for_category * 100).toFixed(1);
+                statusConf.innerText = `Confidence: ${confPercent}%`;
+
+                // Update Probabilities List
+                probList.innerHTML = '';
+                
+                // Sort probabilities descending
+                const sortedProbs = Object.entries(data.all_class_probabilities)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 6); // show top 6
+
+                sortedProbs.forEach(([cat, prob]) => {
+                    const pPercent = (prob * 100).toFixed(2);
+                    const color = cat.toLowerCase() === 'normal' ? 'var(--safe-color)' : 'var(--danger-color)';
+                    
+                    probList.innerHTML += `
+                        <div class="prob-item">
+                            <div class="prob-header">
+                                <span>${cat}</span>
+                                <span>${pPercent}%</span>
+                            </div>
+                            <div class="prob-bar-bg">
+                                <div class="prob-bar-fill" style="width: ${pPercent}%; background-color: ${cat === data.predicted_category ? color : 'var(--text-muted)'};"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                console.error('Simulation Failed:', error);
+                statusCard.className = 'status-card danger';
+                statusValue.innerText = 'System Error';
+                statusConf.innerText = error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Launch Simulation';
+            }
+        }
+
+        // Initialize defaults
+        loadProfile();
+    </script>
+</body>
+</html>
