@@ -102,24 +102,24 @@ def predict():
     try:
         input_df = pd.DataFrame([data])
 
+        # Get the actual expected features from the fitted preprocessor
+        expected_features = preprocessor.feature_names_in_ if hasattr(preprocessor, 'feature_names_in_') else original_features
+
         # Ensure all expected features are present and in the correct order
-        # Fill missing numerical features with 0, and categorical with '-' (or a suitable default)
-        # based on how your preprocessor handles unknowns.
-        for col in original_features:
+        for col in expected_features:
             if col not in input_df.columns:
-                # This logic should mirror how you filled NaNs during preprocessing (e.g., service and state)
                 # For numerical, 0 is often safe. For categorical, '-' might be appropriate if trained with it.
                 if col in preprocessor.named_transformers_['cat'].named_steps['onehot'].feature_names_in_:
                     input_df[col] = '-' # Assuming '-' was used for missing categoricals
                 else:
                     input_df[col] = 0 # Default for numerical
-            # Ensure the data type for numerical columns is consistent if it's coming from an untyped source
-            # This can prevent subtle errors during scaling if the number is read as a string.
+            
+            # Ensure the data type for numerical columns is consistent
             if col in preprocessor.named_transformers_['num'].named_steps['scaler'].feature_names_in_:
                 input_df[col] = pd.to_numeric(input_df[col], errors='coerce').fillna(0) # Convert to numeric, handle potential NaNs from coerce
 
-        # Reorder columns to match the training order BEFORE preprocessing
-        input_df = input_df[original_features]
+        # Reorder columns to match the preprocessor expected order
+        input_df = input_df[expected_features]
 
         # Preprocess features
         processed_features = preprocessor.transform(input_df).astype(np.float32)
