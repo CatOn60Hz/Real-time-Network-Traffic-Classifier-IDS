@@ -166,7 +166,7 @@ python simulate_traffic.py
 
 ## Results and Performance
 
-- **Overall Accuracy:** > 99.9% on the test set.
+- **Overall Accuracy:** > 89% on the test set.
 - High performance across all 10 classes (9 attack types + normal).
 - Strong precision, recall, and F1-score metrics.
 - Classification report and confusion matrix are given below.
